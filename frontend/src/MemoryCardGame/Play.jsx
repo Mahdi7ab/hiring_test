@@ -8,6 +8,7 @@ import buttonHoverSound from "../assets/audio/button-hover.mp3";
 import buttonClickSound from "../assets/audio/button-click.mp3";
 import { X } from "lucide-react";
 import "./Play.css";
+import { green } from "@mui/material/colors";
 
 const modalStyles = {
   overlay: {
@@ -51,7 +52,7 @@ const modalPlayStyles = {
     borderRadius: "20px",
     padding: "40px",
     maxWidth: "600px",
-    height: "200px",
+    height: "fit-content",
     width: "90%",
     color: "#fff",
     textAlign: "center",
@@ -69,7 +70,7 @@ const Play = () => {
   const [PlaymodalIsOpen, setModalPlayIsOpen] = useState(false);
   const [difficulty, setDifficulty] = useState(null);
   const [isCalmMode, setIsCalmMode] = useState(false);
-  
+
   const [bgVolume, setBgVolume] = useState(
     localStorage.getItem("bgVolume") !== null ? parseInt(localStorage.getItem("bgVolume"), 10) : 50
   );
@@ -351,48 +352,53 @@ const Play = () => {
               handleDifficultySelect("green");
               playClickSound();
             }}
-            className={`difficulty-button green ${
-              difficulty === "green" && !isCalmMode ? "selected" : ""
-            } ${isCalmMode && difficulty === "green" ? "calm-selected" : ""}`}
+            className={`difficulty-button green ${difficulty === "green" && !isCalmMode ? "selected" : ""
+              } ${isCalmMode && difficulty === "green" ? "calm-selected" : ""}
+            ${difficulty && difficulty != "green" ? 'gray' : ''}`}
             onMouseEnter={playHoverSound}
           >
             Easy
+            <span className="difficulty-icon">🌟</span>
           </button>
           <button
             onClick={() => {
               handleDifficultySelect("yellow");
               playClickSound();
             }}
-            className={`difficulty-button yellow ${
-              difficulty === "yellow" && !isCalmMode ? "selected" : ""
-            } ${isCalmMode && difficulty === "yellow" ? "calm-selected" : ""}`}
+            className={`difficulty-button yellow ${difficulty === "yellow" && !isCalmMode ? "selected" : ""
+              } ${isCalmMode && difficulty === "yellow" ? "calm-selected" : ""}
+            ${difficulty && difficulty != "yellow" ? 'gray' : ''}`}
             onMouseEnter={playHoverSound}
           >
             Normal
+            <span className="difficulty-icon">⚡</span>
           </button>
           <button
             onClick={() => {
               handleDifficultySelect("red");
               playClickSound();
             }}
-            className={`difficulty-button red ${
-              difficulty === "red" && !isCalmMode ? "selected" : ""
-            } ${isCalmMode && difficulty === "red" ? "calm-selected" : ""}`}
+            className={`difficulty-button red ${difficulty === "red" && !isCalmMode ? "selected" : ""
+              } ${isCalmMode && difficulty === "red" ? "calm-selected" : ""}
+            ${difficulty && difficulty != "red" ? 'gray' : ''}`}
             onMouseEnter={playHoverSound}
           >
             Hard
+            <span className="difficulty-icon">🔥</span>
           </button>
         </div>
 
-        <div>
-          <button
-            onClick={handlePlay}
-            className="play-button"
-            onMouseEnter={playHoverSound}
-          >
-            Accept
-          </button>
-        </div>
+        { difficulty &&
+          <div>
+            <button
+              onClick={handlePlay}
+              className="play-button"
+              onMouseEnter={playHoverSound}
+            >
+              Play {difficulty === "green" ? '2x2' : difficulty === "yellow" ? '3x3' : difficulty === "red" ? '4x4' : ''}
+            </button>
+          </div>
+        }
       </Modal>
     </div>
   );
