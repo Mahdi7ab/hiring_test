@@ -44,3 +44,20 @@ exports.getGameData = async (req, res) => {
         res.status(500).json({ message: 'Error retrieving game data', error: error.message });
     }
 };
+
+exports.getGameDataByQueryParams = async (req, res) => {
+    try {
+        const { userID, difficulty,completed } = req.query;
+        console.log('Received data to query:', req.query);
+        const query = {};
+        if (userID) query.userID = userID;
+        if (difficulty) query.difficulty = difficulty;
+        if (completed) query.completed = completed;
+
+        const results = await Save.find(query).sort({ gameDate: -1 });
+        res.status(200).json(results);
+    } catch (error) {
+        console.error('Error retrieving game data:', error);
+        res.status(500).json({ message: 'Error retrieving game data', error: error.message });
+    }
+};
